@@ -56,6 +56,19 @@ class CommentService
         return $comment;
     }
 
+    public function status(Request $request, Comment $comment): Comment
+    {
+        Validator::make($request->all(), [
+           'approved' => 'required|boolean'
+        ]);
+
+        $comment->update([
+            'approved' => $request->get('approved')
+        ]);
+
+        return $comment;
+    }
+
     /**
      * Handles updating the message of the comment.
      * @return mixed the configured comment-model

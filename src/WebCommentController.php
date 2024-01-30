@@ -38,6 +38,13 @@ class WebCommentController extends CommentController
         return Redirect::to(URL::previous() . '#comment-' . $comment->getKey());
     }
 
+    public function status(Request $request, Comment $comment)
+    {
+        $comment = $this->commentService->status($request, $comment);
+
+        return Redirect::to(URL::previous() . '#comment-' . $comment->getKey());
+    }
+
     /**
      * Deletes a comment.
      */
