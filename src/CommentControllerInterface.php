@@ -17,6 +17,11 @@ interface CommentControllerInterface
     public function update(Request $request, Comment $comment);
 
     /**
+     * Updates the status (approve/reject) of the comment.
+     */
+    public function status(Request $request, Comment $comment);
+
+    /**
      * Deletes a comment.
      */
     public function destroy(Comment $comment);

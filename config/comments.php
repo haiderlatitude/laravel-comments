@@ -50,7 +50,7 @@ return [
      *     ])
      *
      */
-    'approval_required' => false,
+    'approval_required' => true,
 
     /**
      * Set this option to `true` to enable guest commenting.
@@ -58,9 +58,9 @@ return [
      * Visitors will be asked to provide their name and email
      * address in order to post a comment.
      */
-    'guest_commenting' => false,
+    'guest_commenting' => true,
 
-	/**
+    /**
      * Set this option to `true` to enable soft deleting of comments.
      *
      * Comments will be soft deleted using laravels "softDeletes" trait.
@@ -77,6 +77,21 @@ return [
      * Enable/disable calling Paginator::useBootstrap() in the boot method
      * to prevent breaking non bootstrap based Site.
      */
-    'paginator_use_bootstrap' => true,
+    'paginator_use_bootstrap' => false,
+
+    /**
+     * Enable/disable commenting functionality on a model.
+     */
+    'can_reply' => false,
+
+    /**
+     * Enable/disable comment editing functionality.
+     */
+    'can_edit' => false,
+
+    /**
+     * Enable/disable comment deletion functionality.
+     */
+    'can_delete' => false,
 
 ];
