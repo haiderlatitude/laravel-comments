@@ -137,7 +137,7 @@
         @if($grouped_comments->has($comment->getKey()) && $indentationLevel <= $maxIndentationLevel)
             {{-- TODO: Don't repeat code. Extract to a new file and include it. --}}
             @foreach($grouped_comments[$comment->getKey()] as $child)
-                @include('comments::_comment', [
+                @include('comments::tailwind._comment', [
                     'comment' => $child,
                     'grouped_comments' => $grouped_comments
                 ])
@@ -151,7 +151,7 @@
 @if($grouped_comments->has($comment->getKey()) && $indentationLevel > $maxIndentationLevel)
     {{-- TODO: Don't repeat code. Extract to a new file and include it. --}}
     @foreach($grouped_comments[$comment->getKey()] as $child)
-        @include('comments::_comment', [
+        @include('comments::tailwind._comment', [
             'comment' => $child,
             'grouped_comments' => $grouped_comments
         ])

@@ -61,7 +61,7 @@
 @auth
     @include('comments::tailwind._form')
 @elseif(Config::get('comments.guest_commenting') == true)
-    @include('comments::_form', [
+    @include('comments::tailwind._form', [
         'guest_commenting' => true
     ])
 @else
