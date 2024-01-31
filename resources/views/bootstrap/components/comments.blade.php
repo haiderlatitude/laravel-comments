@@ -44,7 +44,7 @@
         {{-- Process parent nodes --}}
         @if($comment_id == '')
             @foreach($comments as $comment)
-                @include('comments::tailwind._comment', [
+                @include('comments::bootstrap._comment', [
                     'comment' => $comment,
                     'grouped_comments' => $grouped_comments,
                     'maxIndentationLevel' => $maxIndentationLevel ?? 3
@@ -59,9 +59,9 @@
 @endisset
 
 @auth
-    @include('comments::tailwind._form')
+    @include('comments::bootstrap._form')
 @elseif(Config::get('comments.guest_commenting') == true)
-    @include('comments::tailwind._form', [
+    @include('comments::bootstrap._form', [
         'guest_commenting' => true
     ])
 @else
