@@ -35,7 +35,7 @@
                 $perPage
             );
 
-            $grouped_comments->withPath(request()->url());
+            $grouped_comments->withPath(request()->url())->links('pagination::bootstrap-4');
         } else {
             $grouped_comments = $comments->groupBy('child_id');
         }

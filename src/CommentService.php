@@ -16,9 +16,15 @@ class CommentService
      */
     public function store(Request $request)
     {
+
         // If guest commenting is turned off, authorize this action.
         if (Config::get('comments.guest_commenting') == false) {
             Gate::authorize('create-comment', Comment::class);
+        }
+        $model = $request->commentable_type::findOrFail($request->commentable_id);
+
+        if (!$model->commentable()) {
+            abort(403, 'This model does not support comments.');
         }
 
         // Define guest rules if user is not logged in.
@@ -36,7 +42,6 @@ class CommentService
             'message' => 'required|string'
         ]))->validate();
 
-        $model = $request->commentable_type::findOrFail($request->commentable_id);
 
         $commentClass = Config::get('comments.model');
         $comment = new $commentClass;
@@ -59,7 +64,7 @@ class CommentService
     public function status(Request $request, Comment $comment): Comment
     {
         Validator::make($request->all(), [
-           'approved' => 'required|boolean'
+            'approved' => 'required|boolean'
         ]);
 
         $comment->update([
@@ -110,6 +115,10 @@ class CommentService
     public function reply(Request $request, Comment $comment)
     {
         Gate::authorize('reply-to-comment', $comment);
+
+        if (!$comment->commentable->commentable()) {
+            abort(403, 'Cannot reply to this comment.');
+        }
 
         Validator::make($request->all(), [
             'message' => 'required|string'

@@ -55,8 +55,6 @@
                         @lang('comments::comments.your_message_is_required')
                     </div>
                 @endif
-                <small
-                        class="form-text text-muted block mb-2">@lang('comments::comments.markdown_cheatsheet', ['url' => 'https://help.github.com/articles/basic-writing-and-formatting-syntax'])</small>
                 <button type="submit"
                         class="bg-[#005FC6] hover:bg-blue-500 text-white px-3 py-2 rounded uppercase text-xs">@lang('comments::comments.submit')</button>
             </div>
