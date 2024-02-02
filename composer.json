@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Laravelista\\Comments\\": "src/"
+            "Haider\\Comments\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Laravelista\\Comments\\ServiceProvider"
+                "Haider\\Comments\\ServiceProvider"
             ]
         }
     }
