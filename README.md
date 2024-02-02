@@ -2,8 +2,6 @@
 
 Comments is a Laravel package. With it you can easily implement native comments for your application.
 
-[![Become a Patron](https://img.shields.io/badge/Become%20a-Patron-f96854.svg?style=for-the-badge)](https://www.patreon.com/laravelista)
-
 
 ## Overview
 
@@ -14,6 +12,7 @@ All comments are stored in a single table with a polymorphic relation for conten
 
 ### Features
 
+- Tailwind and Bootstrap 4 support [NEW]
 - View comments
 - Create comments
 - Delete comments
@@ -74,7 +73,7 @@ I plan to expand this chapter with more tutorials and articles. If you write som
 From the command line:
 
 ```bash
-composer require laravelista/comments
+composer require haiderlatitude/comments
 ```
 
 
@@ -92,7 +91,7 @@ php artisan migrate
 Add the `Commenter` trait to your User model so that you can retrieve the comments for a user:
 
 ```php
-use Laravelista\Comments\Commenter;
+use Haider\Comments\Commenter;
 
 class User extends Authenticatable
 {
@@ -106,7 +105,7 @@ class User extends Authenticatable
 Add the `Commentable` trait to the model for which you want to enable comments for:
 
 ```php
-use Laravelista\Comments\Commentable;
+use Haider\Comments\Commentable;
 
 class Product extends Model
 {
@@ -120,16 +119,16 @@ class Product extends Model
 Publish the config file (optional):
 
 ```bash
-php artisan vendor:publish --provider="Laravelista\Comments\ServiceProvider" --tag=config
+php artisan vendor:publish --provider="Haider\Comments\ServiceProvider" --tag=config
 ```
 
 
 ### Publish views (customization)
 
-The default UI is made for Bootstrap 4, but you can change it however you want.
+The default UI is made for Tailwind CSS; Bootstrap 4 is also available, you can change by publishing the views.
 
 ```bash
-php artisan vendor:publish --provider="Laravelista\Comments\ServiceProvider" --tag=views
+php artisan vendor:publish --provider="Haider\Comments\ServiceProvider" --tag=views
 ```
 
 
@@ -138,7 +137,7 @@ php artisan vendor:publish --provider="Laravelista\Comments\ServiceProvider" --t
 You can publish migration to allow you to have more control over your table
 
 ```bash
-php artisan vendor:publish --provider="Laravelista\Comments\ServiceProvider" --tag=migrations
+php artisan vendor:publish --provider="Haider\Comments\ServiceProvider" --tag=migrations
 ```
 
 
@@ -147,7 +146,7 @@ php artisan vendor:publish --provider="Laravelista\Comments\ServiceProvider" --t
 The package currently only supports English, but I am open to PRs for other languages.
 
 ```bash
-php artisan vendor:publish --provider="Laravelista\Comments\ServiceProvider" --tag=translations
+php artisan vendor:publish --provider="Haider\Comments\ServiceProvider" --tag=translations
 ```
 
 
@@ -213,14 +212,25 @@ You can configure the maximum indentation level like so:
 ])
 ```
 
+### Change the theme to bootstrap
+
+By default, the ui is made for tailwind which can be switched to bootstrap.
+
+```
+@comments([
+    'model' => $user,
+    'ui' => 'bootstrap'
+])
+```
+
 
 ## Events
 
 This package fires events to let you know when things happen.
 
-- `Laravelista\Comments\Events\CommentCreated`
-- `Laravelista\Comments\Events\CommentUpdated`
-- `Laravelista\Comments\Events\CommentDeleted`
+- `Haider\Comments\Events\CommentCreated`
+- `Haider\Comments\Events\CommentUpdated`
+- `Haider\Comments\Events\CommentDeleted`
 
 
 ## REST API
@@ -228,10 +238,11 @@ This package fires events to let you know when things happen.
 To change the controller or the routes, see the config.
 
 ```
-Route::post('comments', '\Laravelista\Comments\CommentController@store')->name('comments.store');
-Route::delete('comments/{comment}', '\Laravelista\Comments\CommentController@destroy')->name('comments.destroy');
-Route::put('comments/{comment}', '\Laravelista\Comments\CommentController@update')->name('comments.update');
-Route::post('comments/{comment}', '\Laravelista\Comments\CommentController@reply')->name('comments.reply');
+Route::post('comments', '\Haider\Comments\CommentController@store')->name('comments.store');
+Route::delete('comments/{comment}', '\Haider\Comments\CommentController@destroy')->name('comments.destroy');
+Route::put('comments/{comment}', '\Haider\Comments\CommentController@update')->name('comments.update');
+Route::post('comments/{comment}/status', '\Haider\Comments\CommentController@status')->name('comments.status');
+Route::post('comments/{comment}', '\Haider\Comments\CommentController@reply')->name('comments.reply');
 ```
 
 
@@ -243,6 +254,15 @@ Request data:
 'commentable_type' => 'required|string',
 'commentable_id' => 'required|string|min:1',
 'message' => 'required|string'
+```
+
+
+### POST `/comments/{comment}/status`
+
+Request data:
+
+```
+'approved' => 'reqruied|boolean',
 ```
 
 
