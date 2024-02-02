@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravelista\Comments;
+namespace Haider\Comments;
 
 use Illuminate\Support\Facades\Config;
 

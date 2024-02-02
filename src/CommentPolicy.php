@@ -1,8 +1,8 @@
 <?php
 
-namespace Laravelista\Comments;
+namespace Haider\Comments;
 
-use Laravelista\Comments\Comment;
+use Haider\Comments\Comment;
 
 class CommentPolicy
 {

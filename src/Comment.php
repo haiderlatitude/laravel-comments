@@ -1,11 +1,11 @@
 <?php
 
-namespace Laravelista\Comments;
+namespace Haider\Comments;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelista\Comments\Events\CommentCreated;
-use Laravelista\Comments\Events\CommentUpdated;
-use Laravelista\Comments\Events\CommentDeleted;
+use Haider\Comments\Events\CommentCreated;
+use Haider\Comments\Events\CommentUpdated;
+use Haider\Comments\Events\CommentDeleted;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
 
