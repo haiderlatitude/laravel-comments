@@ -18,16 +18,23 @@
                 <!-- If you don't have roles and permissions implemented in your project,
                     this 'if' check is used to enable/disable the functionality -->
                 @can('reply-to-comment', $comment)
-                    <button data-toggle="modal" data-target="#reply-modal-{{ $comment->getKey() }}"
-                            class="btn btn-sm btn-link text-uppercase">@lang('comments::comments.reply')</button>
+                    <button data-modal-target="reply-modal-{{ $comment->getKey() }}"
+                            data-modal-toggle="reply-modal-{{ $comment->getKey() }}"
+                            class="text-xs text-gray-500 hover:underline" type="button">
+                        @lang('comments::comments.reply')
+                    </button>
                 @endcan
             @endif
             @if(config('comments.can_edit'))
                 <!-- If you don't have roles and permissions implemented in your project,
                     this 'if' check is used to enable/disable the functionality -->
                 @can('edit-comment', $comment)
-                    <button data-toggle="modal" data-target="#comment-modal-{{ $comment->getKey() }}"
-                            class="text-xs text-gray-500">@lang('comments::comments.edit')</button>
+                    <!-- Modal toggle -->
+                    <button data-modal-target="edit-modal-{{ $comment->getKey() }}"
+                            data-modal-toggle="edit-modal-{{ $comment->getKey() }}"
+                            class="text-xs text-blue-500 hover:underline" type="button">
+                        @lang('comments::comments.edit')
+                    </button>
                 @endcan
             @endif
             @if(config('comments.can_delete'))
@@ -36,7 +43,7 @@
                 @can('delete-comment', $comment)
                     <a href="{{ route('comments.destroy', $comment->getKey()) }}"
                        onclick="event.preventDefault();document.getElementById('comment-delete-form-{{ $comment->getKey() }}').submit();"
-                       class="text-xs text-gray-500">@lang('comments::comments.delete')</a>
+                       class="text-xs text-red-500 hover:underline">@lang('comments::comments.delete')</a>
                     <form id="comment-delete-form-{{ $comment->getKey() }}"
                           action="{{ route('comments.destroy', $comment->getKey()) }}" method="POST"
                           style="display: none;">
@@ -51,33 +58,45 @@
             <!-- If you don't have roles and permissions implemented in your project,
                     this 'if' check is used to enable/disable the functionality -->
             @can('edit-comment', $comment)
-                <div class="modal fade" id="comment-modal-{{ $comment->getKey() }}" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form method="POST" action="{{ route('comments.update', $comment->getKey()) }}">
+                <!-- Main modal -->
+                <div id="edit-modal-{{ $comment->getKey() }}" tabindex="-1" aria-hidden="true"
+                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <!-- Modal header -->
+                            <div
+                                    class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    @lang('comments::comments.edit_comment')
+                                </h3>
+                                <button type="button"
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                        data-modal-toggle="edit-modal-{{ $comment->getKey() }}">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                         fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                              stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <!-- Modal body -->
+                            <form method="POST" action="{{ route('comments.update', $comment->getKey()) }}" class="p-5">
                                 @method('PUT')
                                 @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title">@lang('comments::comments.edit_comment')</h5>
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span>&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
+                                <div class="w-full flex flex-wrap">
+                                    <div class="w-full">
                                         <label
-                                                for="message">@lang('comments::comments.update_your_message_here')</label>
-                                        <textarea required class="form-control" name="message"
+                                                for="message"
+                                                class="text-gray-500 text-xs">@lang('comments::comments.update_your_message_here')</label>
+                                        <textarea required class="w-full resize-none rounded bg-gray-100" name="message" id="message"
                                                   rows="3">{{ $comment->comment }}</textarea>
-                                        <small
-                                                class="form-text text-muted">@lang('comments::comments.markdown_cheatsheet', ['url' => 'https://help.github.com/articles/basic-writing-and-formatting-syntax'])</small>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
-                                            data-dismiss="modal">@lang('comments::comments.cancel')</button>
+                                <div class="flex justify-end">
                                     <button type="submit"
-                                            class="btn btn-sm btn-outline-success text-uppercase">@lang('comments::comments.update')</button>
+                                            class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded uppercase">@lang('comments::comments.update')</button>
                                 </div>
                             </form>
                         </div>
@@ -91,30 +110,50 @@
             <!-- If you don't have roles and permissions implemented in your project,
                     this 'if' check is used to enable/disable the functionality -->
             @can('reply-to-comment', $comment)
-                <div class="modal fade" id="reply-modal-{{ $comment->getKey() }}" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form method="POST" action="{{ route('comments.reply', $comment->getKey()) }}">
+                <div id="reply-modal-{{ $comment->getKey() }}" tabindex="-1" aria-hidden="true"
+                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <!-- Modal header -->
+                            <div
+                                    class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    @lang('comments::comments.reply_to_comment')
+                                </h3>
+                                <button type="button"
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                        data-modal-toggle="reply-modal-{{ $comment->getKey() }}">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                         fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                              stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <!-- Modal body -->
+                            <form method="POST" action="{{ route('comments.reply', $comment->getKey()) }}" class="p-5">
                                 @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title">@lang('comments::comments.reply_to_comment')</h5>
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span>&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="message">@lang('comments::comments.enter_your_message_here')</label>
-                                        <textarea required class="form-control" name="message" rows="3"></textarea>
-                                        <small
-                                                class="form-text text-muted">@lang('comments::comments.markdown_cheatsheet', ['url' => 'https://help.github.com/articles/basic-writing-and-formatting-syntax'])</small>
+                                <div class="w-full flex flex-wrap">
+                                    <div class="w-full">
+                                        <div class="mb-5 text-sm text-gray-700">
+                                            <span class="text-xs text-gray-500 mr-1">Replying to:</span>
+                                            <span
+                                                    class="flex flex-wrap overflow-auto max-h-16 rounded bg-gray-100 border border-gray-300 mt-2 p-2">
+                                                {{ $comment->comment }}
+                                            </span>
+                                        </div>
+                                        <label
+                                                for="message"
+                                                class="text-gray-500 text-xs">@lang('comments::comments.enter_your_message_here')</label>
+                                        <textarea required class="w-full rounded bg-gray-100 resize-none" name="message" id="message"
+                                                  rows="3"></textarea>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
-                                            data-dismiss="modal">@lang('comments::comments.cancel')</button>
+                                <div class="flex justify-end">
                                     <button type="submit"
-                                            class="btn btn-sm btn-outline-success text-uppercase">@lang('comments::comments.reply')</button>
+                                            class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded uppercase">@lang('comments::comments.reply')</button>
                                 </div>
                             </form>
                         </div>

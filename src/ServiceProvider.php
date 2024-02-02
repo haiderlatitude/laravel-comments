@@ -39,9 +39,9 @@ class ServiceProvider extends LaravelServiceProvider
     /**
      * If for some reason you want to override the component.
      */
-    protected function includeBladeComponent($ui = 'tailwind'): void
+    protected function includeBladeComponent(): void
     {
-        Blade::include("comments::{$ui}.components.comments", 'comments');
+        Blade::include("comments::components.main", 'comments');
     }
 
     /**

@@ -48,7 +48,7 @@
                 <label for="message"
                        class="text-sm text-gray-500">@lang('comments::comments.enter_your_message_here')</label>
                 <textarea
-                        class="w-full rounded-lg bg-gray-100 @if($errors->has('message')) border border-red-500 @endif"
+                        class="resize-none w-full rounded-lg bg-gray-100 @if($errors->has('message')) border border-red-500 @endif"
                         name="message" rows="3"></textarea>
                 @if($errors->has('message'))
                     <div class="text-red-500 text-sm">
