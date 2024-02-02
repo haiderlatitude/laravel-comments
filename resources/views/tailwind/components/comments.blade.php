@@ -65,11 +65,11 @@
         'guest_commenting' => true
     ])
 @else
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">@lang('comments::comments.authentication_required')</h5>
-            <p class="card-text">@lang('comments::comments.you_must_login_to_post_a_comment')</p>
-            <a href="{{ route('login') }}" class="btn btn-primary">@lang('comments::comments.log_in')</a>
+    <div class="w-full border shadow shadow-lg rounded mb-10 p-5">
+        <div class="">
+            <h5 class="flex justify-start w-full font-bold w-full text-xl mb-3">@lang('comments::comments.authentication_required')</h5>
+            <p class="flex justify-start w-full font-bold w-full text-lg mb-3">@lang('comments::comments.you_must_login_to_post_a_comment')</p>
+            <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 rounded uppercase text-xs text-white px-3 py-2">@lang('comments::comments.log_in')</a>
         </div>
     </div>
 @endauth
