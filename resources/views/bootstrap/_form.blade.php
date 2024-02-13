@@ -10,6 +10,11 @@
                 {{ $errors->first('commentable_id') }}
             </div>
         @endif
+        @if(session()->has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <form method="POST" action="{{ route('comments.store') }}">
             @csrf
             @honeypot
