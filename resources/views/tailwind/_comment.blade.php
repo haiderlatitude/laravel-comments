@@ -9,8 +9,8 @@
          src="https://www.gravatar.com/avatar/{{ md5($comment->commenter->email ?? $comment->guest_email) }}.jpg?s=64"
          alt="{{ $comment->commenter->name ?? $comment->guest_name }} Avatar">
     <div class="media-body mb-5">
-        <h5 class="mt-0 mb-1 text-sm text-gray-500">{{ $comment->commenter->name ?? $comment->guest_name }} <small
-                    class="text-sm text-gray-500">- {{ $comment->created_at->diffForHumans() }}</small></h5>
+        <div class="mt-0 mb-1 text-lg text-sm text-gray-500">{{ $comment->commenter->name ?? $comment->guest_name }} <small
+                    class="text-sm text-gray-500">- {{ $comment->created_at->diffForHumans() }}</small></div>
         <div style="white-space: pre-wrap;">{!! $markdown->line($comment->comment) !!}</div>
 
         <div>
@@ -67,9 +67,9 @@
                             <!-- Modal header -->
                             <div
                                     class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                <div class="text-lg font-semibold text-gray-900 dark:text-white">
                                     @lang('comments::comments.edit_comment')
-                                </h3>
+                                </div>
                                 <button type="button"
                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                         data-modal-toggle="edit-modal-{{ $comment->getKey() }}">
@@ -118,9 +118,9 @@
                             <!-- Modal header -->
                             <div
                                     class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                <div class="text-lg font-semibold text-gray-900 dark:text-white">
                                     @lang('comments::comments.reply_to_comment')
-                                </h3>
+                                </div>
                                 <button type="button"
                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                         data-modal-toggle="reply-modal-{{ $comment->getKey() }}">

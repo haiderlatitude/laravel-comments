@@ -7,7 +7,7 @@
 <div id="comment-{{ $comment->getKey() }}" class="media">
     <img class="mr-3" src="https://www.gravatar.com/avatar/{{ md5($comment->commenter->email ?? $comment->guest_email) }}.jpg?s=64" alt="{{ $comment->commenter->name ?? $comment->guest_name }} Avatar">
     <div class="media-body">
-        <h5 class="mt-0 mb-1">{{ $comment->commenter->name ?? $comment->guest_name }} <small class="text-muted">- {{ $comment->created_at->diffForHumans() }}</small></h5>
+        <div class="mt-0 mb-1">{{ $comment->commenter->name ?? $comment->guest_name }} <small class="text-muted">- {{ $comment->created_at->diffForHumans() }}</small></div>
         <div style="white-space: pre-wrap;">{!! $markdown->line($comment->comment) !!}</div>
 
         <div>
@@ -34,7 +34,7 @@
                             @method('PUT')
                             @csrf
                             <div class="modal-header">
-                                <h5 class="modal-title">@lang('comments::comments.edit_comment')</h5>
+                                <div class="modal-title fs-5">@lang('comments::comments.edit_comment')</div>
                                 <button type="button" class="close" data-dismiss="modal">
                                 <span>&times;</span>
                                 </button>
@@ -63,7 +63,7 @@
                         <form method="POST" action="{{ route('comments.reply', $comment->getKey()) }}">
                             @csrf
                             <div class="modal-header">
-                                <h5 class="modal-title">@lang('comments::comments.reply_to_comment')</h5>
+                                <div class="modal-title fs-5">@lang('comments::comments.reply_to_comment')</div>
                                 <button type="button" class="close" data-dismiss="modal">
                                 <span>&times;</span>
                                 </button>
