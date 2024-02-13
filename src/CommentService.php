@@ -58,6 +58,12 @@ class CommentService
         $comment->approved = !Config::get('comments.approval_required');
         $comment->save();
 
+        if($comment->approved) {
+            session()->flash('success', 'Comment added successfully.');
+        } else {
+            session()->flash('success', 'Comment submitted for approval successfully.');
+        }
+
         return $comment;
     }
 
@@ -70,6 +76,8 @@ class CommentService
         $comment->update([
             'approved' => $request->get('approved')
         ]);
+
+        session()->flash('success', 'Comment status updated successfully.');
 
         return $comment;
     }
@@ -90,6 +98,8 @@ class CommentService
             'comment' => $request->message
         ]);
 
+        session()->flash('success', 'Comment updated successfully.');
+
         return $comment;
     }
 
@@ -106,6 +116,8 @@ class CommentService
         } else {
             $comment->forceDelete();
         }
+
+        session()->flash('success', 'Comment deleted successfully.');
     }
 
     /**
@@ -132,6 +144,12 @@ class CommentService
         $reply->comment = $request->message;
         $reply->approved = !Config::get('comments.approval_required');
         $reply->save();
+
+        if($reply->approved) {
+            session()->flash('success', 'Reply added successfully.');
+        } else {
+            session()->flash('success', 'Reply submitted for approval successfully.');
+        }
 
         return $reply;
     }
